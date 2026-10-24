@@ -1,31 +1,33 @@
-﻿# Echidnax Gate (ticker)
-> Autonomous Production-Grade Protocol
+# Echidnax Gate — QMOOSA-0755
 
-[![CI/CD Pipeline](https://github.com/elon00/echidnax-gate/actions/workflows/ci-cd-pipeline.yml/badge.svg)](https://github.com/elon00/echidnax-gate/actions)
-[![Score](https://img.shields.io/badge/Reality%20Gates-100%2F100%20GENUINE%20GREEN-2ea44f?style=flat-square)](#reality-check-verification)
-[![NIST PQC](https://img.shields.io/badge/Security-NIST%20FIPS%20203%20%26%20204-blue?style=flat-square)](#security)
-[![Verified](https://img.shields.io/badge/Status-100%25%20Verified-gold?style=flat-square)](#pillars)
+**Status: engineering scaffold; NOT security-approved or deployment-ready.**
 
----
+This repository is the **tests** component of QMOOSA-1000 Batch 151 (Automated Smart Contract Invariant Fuzzer). The current Rust CLI performs a deterministic integer-state demonstration. It does **not** implement contract fuzzing, PQC signatures or encapsulation, TLS, QuickNode connectivity, x402 settlement, escrow verification, or a production security gate.
 
-## About Echidnax Gate
-**Echidnax Gate (\ticker)** is an autonomous, decentralized, post-quantum intelligence protocol engineered for production-grade operational efficiency and cryptographic trust.
+## Verified scope and limitations
 
----
+- `cargo check --all-targets` checks whether Rust source builds; it is not a protocol security audit.
+- `python -m compileall -q tests` and `python -m pytest -q tests -o 'python_files=*.py'` fail closed on invalid Python and failing assertions.
+- The existing `tests/reality_battery.py` contains invalid control characters (including U+0004). The existing `tests/reality_check_harness.py` uses constant assertions, not implementation-bound security tests. They must be replaced with genuine regression/adversarial tests against the approved fuzzer implementation.
+- CodeQL analyzes **Python only** in the current workflow; this does not validate Rust, Solidity, PQC or contract safety.
+- `contracts/LaunchpadToken.sol` is present but is not demonstrated here to be compiled, audited, or deployed.
 
-## Running the Protocol Locally
+## Local commands
 
-### 1. Execute Reality Check Harness (Python)
-``bash
-python tests/reality_check_harness.py
-``
+```bash
+cargo check --all-targets
+python -m pip install 'pytest>=8,<10'
+python -m compileall -q tests
+python -m pytest -q tests -o 'python_files=*.py'
+```
 
-### 2. Run the High-Performance Rust State Engine
-``bash
-cargo run
-``
+A failing gate is an actionable blocker, not a reason to delete tests, skip failures, invent pass scores, or mark this component production-ready.
 
----
+## Release-blocking acceptance work
 
-## Reality Check Verification
-Echidnax Gate enforces strict pre-deployment verification: all invariants, cryptographic proofs, and micro-escrow contracts must achieve a **100/100 Genuine Green** rating before mainnet settlement.
+1. Implement or link the approved Batch 151 fuzzer engine and its contract-under-test fixtures.
+2. Replace corrupted/fake tests with actual invariant, adversarial and regression tests, with deterministic seeds and counterexamples.
+3. Add contract build and static-analysis checks; audit supply/authorization/economic logic separately.
+4. Re-run CI on the exact reviewed commit; obtain independent security approval before deployment.
+
+See `SECURITY.md` and the 2026-10-25 audit checkpoint. No testnet/mainnet deployment, secret usage or paid execution is authorized by this document.
