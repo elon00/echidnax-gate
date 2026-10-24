@@ -1,16 +1,12 @@
-﻿fn main() {
-    println!("=======================================================");
-    println!("[WEB4] [Echidnax Gate] (\ticker)");
-    println!("[ROLE] Autonomous Production-Grade Protocol Engine");
-    println!("[RPC] QuickNode Multi-Chain RPC Gateway: CONNECTED");
-    println!("[PQC] NIST FIPS 203 (ML-KEM) & FIPS 204 (ML-DSA) Security Vault: ACTIVE");
-    println!("=======================================================");
-    
+fn main() {
+    println!("Echidnax Gate (QMOOSA-0755): deterministic CLI demo ONLY");
+    println!("No network connection, PQC verification, contract fuzzing, or escrow verification is performed.");
+
     let mut state: u64 = 0x55AA55AA55AA55AA;
     for _ in 0..10_000 {
-        state = (state ^ ((state >> 7) | (state << 57)) ^ 0x9E3779B97F4A7C15) & 0xFFFFFFFFFFFFFFFF;
+        state = state ^ ((state >> 7) | (state << 57)) ^ 0x9E3779B97F4A7C15;
     }
-    assert!(state != 0, "Invariant Automaton State Collapsed");
-    println!("[PASS] 10,000 Production Invariant Cycles Executed: 0x{:016X}", state);
-    println!("[SUCCESS] All Invariants & Treasury Escrows Verified (100/100)");
+    assert_ne!(state, 0, "Deterministic state unexpectedly zero");
+    println!("10,000 deterministic state transitions completed: 0x{:016X}", state);
+    println!("Engineering demo complete. Security acceptance remains BLOCKED.");
 }
